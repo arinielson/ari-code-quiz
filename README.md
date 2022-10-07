@@ -46,4 +46,4 @@ University of Utah Coding Bootcamp
 
 ## License
 
-Publice
+Public
