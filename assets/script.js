@@ -1,25 +1,40 @@
 var startBtn = document.getElementById('start');
 var startBox = document.getElementById('start-container');
 var quizBox = document.getElementById('main-quiz-container');
+var hsBox = document.getElementById('complete-container');
 var questionEl = document.getElementById('question');
-var answerBtnsEl = document.getElementById('answer-btn')
+var answerBtnsEl = document.getElementById('answer-btn');
+var timerEl = document.getElementById('countdown');
 
 let randomQuestions, currentQuestionIndex;
 
 startBtn.addEventListener('click', startQuiz);
+answerBtnsEl.addEventListener('click', () => {
+    currentQuestionIndex++;    
+    setNextQuestion();
+})
 
-function startQuiz() {
-    console.log('Started');
+function startQuiz() {    
     startBox.classList.add('hide');
     randomQuestions = questions.sort(() => Math.random() - .5);
     currentQuestionIndex = 0;
     quizBox.classList.remove('hide');
-    setNextQuestion();
+
+    var count = 40;
+    var interval = setInterval(function() {
+        timerEl.innerHTML=count;
+        count--;
+        if (count === 0) {
+            clearInterval(interval);            
+        }
+    }, 1000);
+
+    setNextQuestion();    
 }
 
 function setNextQuestion() {
     resetState();
-    showQuestion(randomQuestions[currentQuestionIndex])
+    showQuestion(randomQuestions[currentQuestionIndex]);
 }
 
 function showQuestion(question) {
@@ -37,6 +52,7 @@ function showQuestion(question) {
 }
 
 function resetState() {
+    clearStatusClass(document.body);
     while (answerBtnsEl.firstChild) {
         answerBtnsEl.removeChild
         (answerBtnsEl.firstChild)
@@ -46,10 +62,32 @@ function resetState() {
 function selectAnswer(e) {
     var selectBtn = e.target;
     var correct = selectBtn.dataset.correct;
-    setStatusClass(document.body, correct)
+    setStatusClass(document.body, correct);
     Array.from(answerBtnsEl.children).forEach(button => {
-        setStatusClass(button, button.dataset.correct)
+        setStatusClass(button, button.dataset.correct);
     })
+
+    if (randomQuestions.length > currentQuestionIndex + 1){        
+        console.log("Taking Quiz");
+    } else {
+        console.log("Go to Highscores");
+        quizBox.classList.add('hide');
+        hsBox.classList.remove('hide');
+    }      
+}
+
+function setStatusClass(element, correct) {    
+    clearStatusClass(element);
+    if (correct) {
+        element.classList.add('correct');        
+    } else {
+        element.classList.add('wrong');
+    }
+}
+
+function clearStatusClass(element) {    
+    element.classList.remove('correct');        
+    element.classList.remove('wrong');    
 }
 
 var questions = [
@@ -69,15 +107,6 @@ var questions = [
             {text: `function myFunction()`, correct: true},
             {text: `function:function`, correct: false},
             {text: `function()`, correct: false}
-        ]
-    },
-    {
-        question: `What is the correct what to write an array?`,
-        answers: [            
-            {text: `var pets = cats, dogs, birds`, correct: false},
-            {text: `var pets = (cats), (dogs), (birds)`, correct: false},
-            {text: `var pets = ["cats", "dogs", "birds"]`, correct: true},
-            {text: `var pets = ("cats", "dogs", "birds")`, correct: false}
         ]
     },
     {

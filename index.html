@@ -10,7 +10,7 @@
 <body>
     <header>
         <div><a href="/highscores.html">View Highscores</a></div>
-        <div>Time: --</div>
+        <div id="countdown">Time: --</div>
     </header>
     <main class="container">
         <section id="main-quiz-container" class="hide">
@@ -29,6 +29,14 @@
                 <h2>Coding Quiz</h2>
                 <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your scoretime by ten seconds!</p>
                 <div class="btn-container"><button class="btn" id="start">Start Quiz</button></div>
+            </section>
+        </section>
+        <section id="complete-container" class="hide"> 
+            <section class="highscore-container">                     
+                <h2>All Done!</h2>
+                <p id="score">Your final score: 00</p>
+                <input type="text" name="initials" id="hs-initial" placeholder="---">
+                <div class="btn-container"><button class="btn" id="submit">Submit</button></div>
             </section>
         </section>
     </main>
