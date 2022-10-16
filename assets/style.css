@@ -1,4 +1,4 @@
-*, *::after {
+*, *::before, *::after {
     font-family: Georgia, 'Times New Roman', Times, serif;    
 }
 
@@ -70,6 +70,11 @@ p {
 
 .btn:hover {
     opacity: 50%;
+}
+
+.btn#next {
+    margin-top: 30px;
+    width: 100px;
 }
 
 .highscore-card {

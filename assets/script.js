@@ -1,7 +1,9 @@
 var startBtn = document.getElementById('start');
+var nextBtn = document.getElementById('next');
 var startBox = document.getElementById('start-container');
 var quizBox = document.getElementById('main-quiz-container');
-var hsBox = document.getElementById('complete-container');
+var hsFormBox = document.getElementById('complete-container');
+var hsBox = document.getElementById('hs-container');
 var questionEl = document.getElementById('question');
 var answerBtnsEl = document.getElementById('answer-btn');
 var timerEl = document.getElementById('countdown');
@@ -9,26 +11,18 @@ var timerEl = document.getElementById('countdown');
 let randomQuestions, currentQuestionIndex;
 
 startBtn.addEventListener('click', startQuiz);
-answerBtnsEl.addEventListener('click', () => {
-    currentQuestionIndex++;    
-    setNextQuestion();
+
+nextBtn.addEventListener('click', () => {
+    currentQuestionIndex++;        
+    setNextQuestion();        
 })
 
 function startQuiz() {    
-    startBox.classList.add('hide');
+    startBox.classList.add('hide');        
     randomQuestions = questions.sort(() => Math.random() - .5);
     currentQuestionIndex = 0;
-    quizBox.classList.remove('hide');
-
-    var count = 40;
-    var interval = setInterval(function() {
-        timerEl.innerHTML=count;
-        count--;
-        if (count === 0) {
-            clearInterval(interval);            
-        }
-    }, 1000);
-
+    quizBox.classList.remove('hide');    
+    countdown();
     setNextQuestion();    
 }
 
@@ -53,9 +47,9 @@ function showQuestion(question) {
 
 function resetState() {
     clearStatusClass(document.body);
+    nextBtn.classList.add('hide');
     while (answerBtnsEl.firstChild) {
-        answerBtnsEl.removeChild
-        (answerBtnsEl.firstChild)
+        answerBtnsEl.removeChild(answerBtnsEl.firstChild)
     }
 }
 
@@ -66,28 +60,43 @@ function selectAnswer(e) {
     Array.from(answerBtnsEl.children).forEach(button => {
         setStatusClass(button, button.dataset.correct);
     })
-
     if (randomQuestions.length > currentQuestionIndex + 1){        
-        console.log("Taking Quiz");
-    } else {
-        console.log("Go to Highscores");
+        nextBtn.classList.remove('hide');
+    } else {               
         quizBox.classList.add('hide');
-        hsBox.classList.remove('hide');
+        hsFormBox.classList.remove('hide');         
     }      
 }
 
 function setStatusClass(element, correct) {    
     clearStatusClass(element);
     if (correct) {
-        element.classList.add('correct');        
+        element.classList.add('correct'); 
+        console.log("Correct answer selected")
     } else {
         element.classList.add('wrong');
+        console.log("Wrong answer selected")
     }
 }
 
 function clearStatusClass(element) {    
     element.classList.remove('correct');        
     element.classList.remove('wrong');    
+}
+
+function countdown() {
+    var count = 60;
+    var interval = setInterval(function() {
+        timerEl.innerHTML=count;
+        count--;
+        if (count === -1) {
+            clearInterval(interval); 
+            startBox.classList.add('hide');
+            quizBox.classList.add('hide');
+            hsBox.classList.add('hide');
+            hsFormBox.classList.remove('hide');           
+        }
+    }, 1000);
 }
 
 var questions = [
