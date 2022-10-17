@@ -6,7 +6,12 @@ var hsFormBox = document.getElementById('complete-container');
 var hsBox = document.getElementById('hs-container');
 var questionEl = document.getElementById('question');
 var answerBtnsEl = document.getElementById('answer-btn');
+var answerBtns = document.getElementById('ans-btn');
 var timerEl = document.getElementById('countdown');
+var interval;
+var count = 60;
+var highscores = [];
+var score = 0;
 
 let randomQuestions, currentQuestionIndex;
 
@@ -45,11 +50,16 @@ function showQuestion(question) {
     })
 }
 
+// Add click event to select answerBtn to signify correct or wrong
+// Add score at end
+// Function for initials
+// Save score and initials
+
 function resetState() {
     clearStatusClass(document.body);
     nextBtn.classList.add('hide');
     while (answerBtnsEl.firstChild) {
-        answerBtnsEl.removeChild(answerBtnsEl.firstChild)
+        answerBtnsEl.removeChild(answerBtnsEl.firstChild);
     }
 }
 
@@ -62,7 +72,8 @@ function selectAnswer(e) {
     })
     if (randomQuestions.length > currentQuestionIndex + 1){        
         nextBtn.classList.remove('hide');
-    } else {               
+    } else {       
+        clearInterval(interval);        
         quizBox.classList.add('hide');
         hsFormBox.classList.remove('hide');         
     }      
@@ -71,11 +82,9 @@ function selectAnswer(e) {
 function setStatusClass(element, correct) {    
     clearStatusClass(element);
     if (correct) {
-        element.classList.add('correct'); 
-        console.log("Correct answer selected")
-    } else {
-        element.classList.add('wrong');
-        console.log("Wrong answer selected")
+        element.classList.add('correct');         
+    } else {                      
+        element.classList.add('wrong');                
     }
 }
 
@@ -84,9 +93,8 @@ function clearStatusClass(element) {
     element.classList.remove('wrong');    
 }
 
-function countdown() {
-    var count = 60;
-    var interval = setInterval(function() {
+function countdown() {    
+    interval = setInterval(function() {
         timerEl.innerHTML=count;
         count--;
         if (count === -1) {
