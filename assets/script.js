@@ -2,25 +2,21 @@ var startBtn = document.getElementById('start');
 var nextBtn = document.getElementById('next');
 var startBox = document.getElementById('start-container');
 var quizBox = document.getElementById('main-quiz-container');
-var hsFormBox = document.getElementById('complete-container');
+var formBox = document.getElementById('form-container');
 var hsBox = document.getElementById('hs-container');
 var questionEl = document.getElementById('question');
 var answerBtnsEl = document.getElementById('answer-btn');
-var answerBtns = document.getElementById('ans-btn');
 var timerEl = document.getElementById('countdown');
+var scoreEl = document.getElementById('score');
+var initialsEl = document.getElementById('initials');
 var interval;
-var count = 60;
+var count = 45;
 var highscores = [];
 var score = 0;
 
 let randomQuestions, currentQuestionIndex;
 
 startBtn.addEventListener('click', startQuiz);
-
-nextBtn.addEventListener('click', () => {
-    currentQuestionIndex++;        
-    setNextQuestion();        
-})
 
 function startQuiz() {    
     startBox.classList.add('hide');        
@@ -50,10 +46,18 @@ function showQuestion(question) {
     })
 }
 
-// Add click event to select answerBtn to signify correct or wrong
-// Add score at end
-// Function for initials
-// Save score and initials
+answerBtnsEl.addEventListener('click', answerHandler);
+
+function answerHandler(event) {
+    var targetEl = event.target;
+
+    if (targetEl.hasAttribute("data-correct")){
+        score++;
+        score = score + 100;
+    } else {
+        count = count - 10;
+    }
+}
 
 function resetState() {
     clearStatusClass(document.body);
@@ -62,6 +66,11 @@ function resetState() {
         answerBtnsEl.removeChild(answerBtnsEl.firstChild);
     }
 }
+
+nextBtn.addEventListener('click', () => {
+    currentQuestionIndex++;        
+    setNextQuestion();        
+})
 
 function selectAnswer(e) {
     var selectBtn = e.target;
@@ -75,7 +84,7 @@ function selectAnswer(e) {
     } else {       
         clearInterval(interval);        
         quizBox.classList.add('hide');
-        hsFormBox.classList.remove('hide');         
+        formBox.classList.remove('hide');         
     }      
 }
 
@@ -102,11 +111,12 @@ function countdown() {
             startBox.classList.add('hide');
             quizBox.classList.add('hide');
             hsBox.classList.add('hide');
-            hsFormBox.classList.remove('hide');           
+            formBox.classList.remove('hide');           
         }
     }, 1000);
 }
 
+// Questions-Answers Array
 var questions = [
     {
         question: `How do you declare a variable?`,
