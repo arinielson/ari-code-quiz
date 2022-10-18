@@ -1,5 +1,6 @@
 var startBtn = document.getElementById('start');
 var nextBtn = document.getElementById('next');
+var submitBtn = document.getElementById('submit');
 var startBox = document.getElementById('start-container');
 var quizBox = document.getElementById('main-quiz-container');
 var formBox = document.getElementById('form-container');
@@ -58,6 +59,14 @@ function answerHandler(event) {
         count = count - 10;
     }
 }
+
+submitBtn.addEventListener('click', function(event){
+    event.preventDefault();  
+    
+
+    localStorage.setItem("score", score);
+    localStorage.setItem("initials", initialsEl.value);
+})
 
 function resetState() {
     clearStatusClass(document.body);
