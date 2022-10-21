@@ -48,7 +48,7 @@ Quiz End Page
 
 GitHub: https://github.com/arinielson/ari-code-quiz
 
-Website: 
+Website: https://arinielson.github.io/ari-code-quiz/
 
 ## Credits
 
