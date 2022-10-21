@@ -115,7 +115,7 @@ function countdown() {
     interval = setInterval(function() {
         timerEl.innerHTML=count;
         count--;
-        if (count === -1) {
+        if (count === 0) {
             clearInterval(interval); 
             startBox.classList.add('hide');
             quizBox.classList.add('hide');
