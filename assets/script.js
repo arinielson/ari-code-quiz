@@ -125,7 +125,6 @@ function countdown() {
     }, 1000);
 }
 
-// Questions-Answers Array
 var questions = [
     {
         question: `How do you declare a variable?`,
